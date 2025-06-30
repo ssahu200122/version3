@@ -1,0 +1,22 @@
+{
+  "ssahu2001@gmail.com (Default)": {
+    "cmd": "--profile-directory=Default",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "ssahu200122@outlook.com (Profile 1)": {
+    "cmd": "--profile-directory=Profile 1",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "sachinaugust2007@gmail.com (Profile 2)": {
+    "cmd": "--profile-directory=Profile 2",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "myossujourney@hotmail.com (Profile 3)": {
+    "cmd": "--profile-directory=Profile 3",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  }
+}
