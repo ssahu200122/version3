@@ -15,7 +15,7 @@ for module in required_modules:
         subprocess.check_call([sys.executable, "-m", "pip", "install", module])
 
 
-
+import math
 import customtkinter
 import threading
 import time
@@ -30,8 +30,10 @@ import os
 # from my_ordered_set import SortedProfileDict
 import sys
 from wonderwords import RandomWord
+from cmd_colors import Colors
 
 
+colors = Colors()
 
 
 
@@ -126,6 +128,7 @@ def open_edge_profiles(profile_list,m=False):
 
 def search(win,m=False):
     win.activate()
+    # print("# ",end=" ")
     time.sleep(0.5)
     if m:
         pyautogui.hotkey('ctrl',"tab")
@@ -163,7 +166,9 @@ def activate_inspectionmode():
     
         
 def close_edge_windows():
-     subprocess.run(['taskkill','/F','/IM','msedge.exe'])
+    #  taskkill /IM msedge.exe /F >NUL 2>&1
+    #  subprocess.run(['taskkill','/F','/IM','msedge.exe'])
+    subprocess.run(['taskkill', '/F', '/IM', 'msedge.exe'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 def all_checkbox_event():
     global selected_profiles
@@ -306,22 +311,32 @@ def numOfProfiles_event():
 
 
 def start_button():
+    totalSearchedPoints = 0
     n = numOfProfiles.var.get()
-    for i in range(0,len(selected_profiles),n):
+    N = len(selected_profiles)
+    for i in range(0,N,n):
         search_profiles = [profile["cmd"] for profile in selected_profiles.values()][i:i+n]
 
-        pc = pc_slider.var.get()//3
+        k = pc_slider.var.get()
+        totalPoints = k*N
+        pc = k//3
+        print(f"{colors.color_256_bg(22)}{colors.color_256_fg(15)}{colors.BOLD}              ({(i//n)+1}/{math.floor(N/n)+1}"," Round started ",f"{i}-{i+n-1} [{totalSearchedPoints}/{totalPoints}])           {colors.RESET}")
+        # totalSearchedPoints += n*k
         if pc:
             open_edge_profiles(search_profiles)
             # time.sleep(3)
             wins = get_edge_windows()
 
-            for _ in range(pc):
+            for i in range(pc):
                 for win in wins:
+                    
                     search(win)
+                    totalSearchedPoints += 3
                     
                     if len(search_profiles) <= 3:
                         time.sleep(2)
+                    print(f"{colors.YELLOW}# {colors.RESET}",end=" ")
+                print(f"{colors.BG_BLUE}{colors.WHITE}{colors.BOLD}: ({(i+1)*3}/{pc_slider.var.get()}) [{totalSearchedPoints}/{totalPoints}]{colors.RESET}")
             time.sleep(2)
             close_edge_windows()
 
@@ -346,7 +361,7 @@ def start_button():
             
             time.sleep(2)
             close_edge_windows()
-    print("............................................DONE............................................")
+    print(f"{colors.BG_BRIGHT_YELLOW}{colors.BLACK}{colors.BOLD}                   DONE [{totalSearchedPoints}/{totalPoints}]                      {colors.RESET}")
 
 
 
@@ -406,10 +421,10 @@ fr2.rowconfigure(0,weight=1)
 numOfProfiles = Slider1(fr2,"Number of profiles: ",2,15,1,4,command=numOfProfiles_event)
 numOfProfiles.grid(row=0,column=0,sticky="swe",padx=20,pady=(5,2))
 
-pc_slider = Slider1(fr2,"PC: ",0,102,3,90)
+pc_slider = Slider1(fr2,"PC: ",0,102,3,39)
 pc_slider.grid(row=1,column=0,sticky="swe",padx=20,pady=3)
 
-mobile_slider = Slider1(fr2,"Mobile: ",0,75,3,60)
+mobile_slider = Slider1(fr2,"Mobile: ",0,75,3,0)
 mobile_slider.grid(row=2,column=0,sticky="swe",padx=20,pady=(2,5))
 
 optionmenu_var = customtkinter.StringVar(value="inverse selection")
