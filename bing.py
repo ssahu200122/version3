@@ -71,8 +71,21 @@ def save_profiles():
     file.truncate()
 
 def restart_program():
-    batch_file = os.path.expanduser(r"C:\Users\ssahu\OneDrive\Desktop\newBing.bat")
-    # Run it
+    home_dir = os.path.expanduser('~')
+    
+    # Path for a desktop synced with OneDrive
+    onedrive_desktop_path = os.path.join(home_dir, 'OneDrive', 'Desktop', 'newBing.bat')
+    
+    # Path for a standard local desktop
+    local_desktop_path = os.path.join(home_dir, 'Desktop', 'newBing.bat')
+
+    # Check if the OneDrive path exists and use it, otherwise use the local path
+    if os.path.exists(onedrive_desktop_path):
+        batch_file = onedrive_desktop_path
+    else:
+        batch_file = local_desktop_path
+        
+    # Run the batch file
     os.system(f'start "" "{batch_file}"')
 
 def kill_program():
