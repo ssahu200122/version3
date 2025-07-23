@@ -335,7 +335,8 @@ def start_button():
                     
                     if len(search_profiles) <= 3:
                         time.sleep(2)
-                    print(f"{colors.YELLOW}# {colors.RESET}",end=" ")
+                str = "# "*len(wins)+"  "*(n-len(wins))
+                print(f"{colors.YELLOW}{str} {colors.RESET}",end=" ")
                 print(f"{colors.BG_BLUE}{colors.WHITE}{colors.BOLD}: ({(i+1)*3}/{pc_slider.var.get()}) [{totalSearchedPoints}/{totalPoints}]{colors.RESET}")
             time.sleep(2)
             close_edge_windows()
@@ -361,7 +362,7 @@ def start_button():
             
             time.sleep(2)
             close_edge_windows()
-    print(f"{colors.BG_BRIGHT_YELLOW}{colors.BLACK}{colors.BOLD}                   DONE [{totalSearchedPoints}/{totalPoints}]                      {colors.RESET}")
+    print(f"{colors.BG_BRIGHT_YELLOW}{colors.BLACK}{colors.BOLD}                       DONE [{totalSearchedPoints}/{totalPoints}]                      {colors.RESET}")
 
 
 
