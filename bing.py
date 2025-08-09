@@ -36,6 +36,7 @@ from cmd_colors import Colors
 colors = Colors()
 
 
+    
 
 r = RandomWord()
 
@@ -57,6 +58,8 @@ file = open('data.json','r+')
 profiles = json.load(file)
 
 selected_profiles = profiles.copy()
+
+
 
 #Functions:
 
@@ -323,14 +326,18 @@ def numOfProfiles_event():
 
 
 
-def start_button():
+def start_button(start_test=False,kk=0):
     totalSearchedPoints = 0
-    n = numOfProfiles.var.get()
+    if start_test:n=4
+    else:n = numOfProfiles.var.get()
     N = len(selected_profiles)
+    print(N)
     for i in range(0,N,n):
         search_profiles = [profile["cmd"] for profile in selected_profiles.values()][i:i+n]
 
-        k = pc_slider.var.get()
+        if start_test:
+            k=kk
+        else:k = pc_slider.var.get()
         totalPoints = k*N
         pc = k//3
         print(f"{colors.color_256_bg(22)}{colors.color_256_fg(15)}{colors.BOLD}              ({(i//n)+1}/{math.floor(N/n)+1}"," Round started ",f"{i}-{i+n-1} [{totalSearchedPoints}/{totalPoints}])           {colors.RESET}")
@@ -355,97 +362,101 @@ def start_button():
             close_edge_windows()
 
         time.sleep(2)
+        if not start_test:
+            m = mobile_slider.var.get()//3
+            if m:
+                open_edge_profiles(search_profiles)
+                # time.sleep(3)
+                activate_inspectionmode()
 
-        m = mobile_slider.var.get()//3
-        if m:
-            open_edge_profiles(search_profiles)
-            # time.sleep(3)
-            activate_inspectionmode()
 
-            wins = get_edge_windows()
-            
+                wins = get_edge_windows()
+                
 
-            for _ in range(m):
-                for win in wins:
-                    search(win,m=True)
-                    time.sleep(1)
-                    if len(search_profiles) <= 3:
-                        time.sleep(2)
+                for _ in range(m):
+                    for win in wins:
+                        search(win,m=True)
+                        time.sleep(1)
+                        if len(search_profiles) <= 3:
+                            time.sleep(2)
 
-            
-            time.sleep(2)
-            close_edge_windows()
+                
+                time.sleep(2)
+                close_edge_windows()
     print(f"{colors.BG_BRIGHT_YELLOW}{colors.BLACK}{colors.BOLD}                       DONE [{totalSearchedPoints}/{totalPoints}]                      {colors.RESET}")
 
 
+if len(sys.argv)>1:
+    print(sys.argv)
+    start_button(True,int(sys.argv[1]))
+else:
+    #Main UI
+    app = customtkinter.CTk()
+    app.geometry("770x310+960+600")
+    app.title("Bing Auto Search")
+    # app.resizable(False,False)
+    app.attributes("-topmost",True)
 
-#Main UI
-app = customtkinter.CTk()
-app.geometry("770x310+960+600")
-app.title("Bing Auto Search")
-# app.resizable(False,False)
-app.attributes("-topmost",True)
-
-app.grid_columnconfigure(0, weight=5)
-app.grid_columnconfigure(1, weight=3)
-app.grid_rowconfigure(0, weight=1)
-
-
-#Frame down:
-downfr = customtkinter.CTkFrame(app)
-downfr.grid(row=1,column=0,sticky="ew",padx=10,pady=5,columnspan=2)
-downfr.columnconfigure(0,weight=1)
-
-all_check_var = customtkinter.StringVar(value="on")
-all_checkbox = customtkinter.CTkCheckBox(downfr, text="All: "+str(len(selected_profiles)), command=all_checkbox_event,
-                                     variable=all_check_var, onvalue="on", offvalue="off")
-all_checkbox.grid(row=0,column=0,padx=8,pady=5,sticky="w")
+    app.grid_columnconfigure(0, weight=5)
+    app.grid_columnconfigure(1, weight=3)
+    app.grid_rowconfigure(0, weight=1)
 
 
-check_check_var = customtkinter.StringVar(value="off")
-checkcheckbox = customtkinter.CTkCheckBox(downfr, text="", command=chech_checkbox_event,
-                                     variable=check_check_var, onvalue="on", offvalue="off",width=10)
-checkcheckbox.grid(row=0,column=2,padx=5,pady=5,sticky="e")
+    #Frame down:
+    downfr = customtkinter.CTkFrame(app)
+    downfr.grid(row=1,column=0,sticky="ew",padx=10,pady=5,columnspan=2)
+    downfr.columnconfigure(0,weight=1)
+
+    all_check_var = customtkinter.StringVar(value="on")
+    all_checkbox = customtkinter.CTkCheckBox(downfr, text="All: "+str(len(selected_profiles)), command=all_checkbox_event,
+                                        variable=all_check_var, onvalue="on", offvalue="off")
+    all_checkbox.grid(row=0,column=0,padx=8,pady=5,sticky="w")
 
 
-check = customtkinter.CTkButton(downfr,text="Check",font=("Cascadia code",15),fg_color="GREY",command=check_button)
-check.grid(row=0,column=3,padx=5,pady=5,sticky="e")
-
-closeb = customtkinter.CTkButton(downfr,text="Close",font=("Cascadia code",15),fg_color="GREEN",command=close_edge_windows)
-closeb.grid(row=0,column=4,padx=5,pady=5,sticky="e")
-
-start = customtkinter.CTkButton(downfr,text="Start",font=("Cascadia code",15),command=start_button)
-start.grid(row=0,column=5,padx=5,pady=5,sticky="e")
+    check_check_var = customtkinter.StringVar(value="off")
+    checkcheckbox = customtkinter.CTkCheckBox(downfr, text="", command=chech_checkbox_event,
+                                        variable=check_check_var, onvalue="on", offvalue="off",width=10)
+    checkcheckbox.grid(row=0,column=2,padx=5,pady=5,sticky="e")
 
 
-#Frame 1:
-fr1 = customtkinter.CTkScrollableFrame(app)
-fr1.grid(row=0,column=0,sticky="nsew",padx=(10,5),pady=5)
+    check = customtkinter.CTkButton(downfr,text="Check",font=("Cascadia code",15),fg_color="GREY",command=check_button)
+    check.grid(row=0,column=3,padx=5,pady=5,sticky="e")
+
+    closeb = customtkinter.CTkButton(downfr,text="Close",font=("Cascadia code",15),fg_color="GREEN",command=close_edge_windows)
+    closeb.grid(row=0,column=4,padx=5,pady=5,sticky="e")
+
+    start = customtkinter.CTkButton(downfr,text="Start",font=("Cascadia code",15),command=start_button)
+    start.grid(row=0,column=5,padx=5,pady=5,sticky="e")
 
 
-draw_widgets()
-#Frame 2:
-fr2 = customtkinter.CTkScrollableFrame(app)
-fr2.grid(row=0,column=1,sticky="nsew",padx=(5,10),pady=10)
+    #Frame 1:
+    fr1 = customtkinter.CTkScrollableFrame(app)
+    fr1.grid(row=0,column=0,sticky="nsew",padx=(10,5),pady=5)
 
 
-fr2.columnconfigure(0,weight=1)
-fr2.rowconfigure(0,weight=1)
+    draw_widgets()
+    #Frame 2:
+    fr2 = customtkinter.CTkScrollableFrame(app)
+    fr2.grid(row=0,column=1,sticky="nsew",padx=(5,10),pady=10)
 
-numOfProfiles = Slider1(fr2,"Number of profiles: ",2,15,1,4,command=numOfProfiles_event)
-numOfProfiles.grid(row=0,column=0,sticky="swe",padx=20,pady=(5,2))
 
-pc_slider = Slider1(fr2,"PC: ",0,102,3,39)
-pc_slider.grid(row=1,column=0,sticky="swe",padx=20,pady=3)
+    fr2.columnconfigure(0,weight=1)
+    fr2.rowconfigure(0,weight=1)
 
-mobile_slider = Slider1(fr2,"Mobile: ",0,75,3,0)
-mobile_slider.grid(row=2,column=0,sticky="swe",padx=20,pady=(2,5))
+    numOfProfiles = Slider1(fr2,"Number of profiles: ",2,15,1,4,command=numOfProfiles_event)
+    numOfProfiles.grid(row=0,column=0,sticky="swe",padx=20,pady=(5,2))
 
-optionmenu_var = customtkinter.StringVar(value="inverse selection")
-options = ["inverse selection","selected"]+calculateSets()+["Custom","Auto detect Profiles"]
-optionmenu = customtkinter.CTkOptionMenu(downfr,values=options,
-                                         command=optionmenu_callback,
-                                         variable=optionmenu_var)
-optionmenu.grid(row=0,column=1,padx=5,pady=5,sticky="w")
+    pc_slider = Slider1(fr2,"PC: ",0,102,3,9)
+    pc_slider.grid(row=1,column=0,sticky="swe",padx=20,pady=3)
 
-app.mainloop()
+    mobile_slider = Slider1(fr2,"Mobile: ",0,75,3,0)
+    mobile_slider.grid(row=2,column=0,sticky="swe",padx=20,pady=(2,5))
+
+    optionmenu_var = customtkinter.StringVar(value="inverse selection")
+    options = ["inverse selection","selected"]+calculateSets()+["Custom","Auto detect Profiles"]
+    optionmenu = customtkinter.CTkOptionMenu(downfr,values=options,
+                                            command=optionmenu_callback,
+                                            variable=optionmenu_var)
+    optionmenu.grid(row=0,column=1,padx=5,pady=5,sticky="w")
+
+    app.mainloop()

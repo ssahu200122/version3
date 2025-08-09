@@ -34,11 +34,6 @@
     "PcPoints": 0,
     "MobilePoints": 75
   },
-  "guitartrimmer@outlook.com (Personal 8)": {
-    "cmd": "--profile-directory=Profile 8",
-    "PcPoints": 0,
-    "MobilePoints": 75
-  },
   "guitartrimmer@hotmail.com (Personal 9)": {
     "cmd": "--profile-directory=Profile 9",
     "PcPoints": 0,
@@ -121,6 +116,36 @@
   },
   "sciencemath1947@hotmail.com (Personal 25)": {
     "cmd": "--profile-directory=Profile 32",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "kapilsharmasahu@outlook.com (Personal 26)": {
+    "cmd": "--profile-directory=Profile 35",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "kapilsharmasahu@hotmail.com (Personal 27)": {
+    "cmd": "--profile-directory=Profile 36",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "kumarsanulata@outlook.com (Personal 28)": {
+    "cmd": "--profile-directory=Profile 37",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "kumarsanulata@hotmail.com (Personal 29)": {
+    "cmd": "--profile-directory=Profile 38",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "kallukaliyadevil@hotmail.com (Personal 30)": {
+    "cmd": "--profile-directory=Profile 41",
+    "PcPoints": 0,
+    "MobilePoints": 75
+  },
+  "kallukaliyadevil@outlook.com (Personal 31)": {
+    "cmd": "--profile-directory=Profile 42",
     "PcPoints": 0,
     "MobilePoints": 75
   }
