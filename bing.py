@@ -443,7 +443,7 @@ else:
     fr2.columnconfigure(0,weight=1)
     fr2.rowconfigure(0,weight=1)
 
-    numOfProfiles = Slider1(fr2,"Number of profiles: ",2,15,1,4,command=numOfProfiles_event)
+    numOfProfiles = Slider1(fr2,"Number of profiles: ",2,15,1,9,command=numOfProfiles_event)
     numOfProfiles.grid(row=0,column=0,sticky="swe",padx=20,pady=(5,2))
 
     pc_slider = Slider1(fr2,"PC: ",0,102,3,9)
