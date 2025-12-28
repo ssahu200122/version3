@@ -446,7 +446,7 @@ else:
     closeb = customtkinter.CTkButton(downfr,text="Close",font=("Cascadia code",15),fg_color="GREEN",command=close_edge_windows)
     closeb.grid(row=0,column=4,padx=5,pady=5,sticky="e")
 
-    shutdown_check_var = customtkinter.StringVar(value="on")
+    shutdown_check_var = customtkinter.StringVar(value="off")
     shutdowncheckbox = customtkinter.CTkCheckBox(downfr, text="Shutdown",variable=shutdown_check_var, onvalue="on", offvalue="off")
     shutdowncheckbox.grid(row=0,column=5,padx=5,pady=5,sticky="e")
 
