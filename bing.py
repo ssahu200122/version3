@@ -26,6 +26,7 @@ from slider import Slider
 import subprocess
 from slider1 import Slider1
 import os
+import platform
 
 # from my_ordered_set import SortedProfileDict
 import sys
@@ -111,6 +112,23 @@ def draw_widgets():
         s = Slider(fr1,profile=f"{profile}",v=(profiles[profile]["PcPoints"],profiles[profile]["MobilePoints"]),profiles=profiles,cmd=profiles[profile]["cmd"],profiles_set=selected_profiles,mbox=all_checkbox)
         s.grid(row=i+5,column=0,sticky='we')
         widgets[profile] = s
+
+def shutdown_computer():
+    # Check which operating system the computer is running
+    current_os = platform.system()
+    
+    print(f"Detected OS: {current_os}")
+    print("Shutting down...")
+
+    if current_os == "Windows":
+        # /s = shutdown, /t 0 = 0 seconds delay
+        os.system("shutdown /s /t 0")
+    elif current_os == "Linux" or current_os == "Darwin": # Darwin is macOS
+        # -h = halt/shutdown, now = immediately
+        # Note: This usually requires root/sudo privileges on Linux/Mac
+        os.system("sudo shutdown -h now")
+    else:
+        print("Operating system not supported for automatic shutdown.")
 
 def get_edge_profiles():
     profiles = {}
@@ -385,6 +403,9 @@ def start_button(start_test=False,kk=0):
                 close_edge_windows()
     print(f"{colors.BG_BRIGHT_YELLOW}{colors.BLACK}{colors.BOLD}                       DONE [{totalSearchedPoints}/{totalPoints}]                      {colors.RESET}")
 
+    if shutdown_check_var.get() == "on" and not start_test:
+        shutdown_computer()
+
 
 if len(sys.argv)>1:
     print(sys.argv)
@@ -392,7 +413,7 @@ if len(sys.argv)>1:
 else:
     #Main UI
     app = customtkinter.CTk()
-    app.geometry("770x310+960+600")
+    app.geometry("870x310+830+600")
     app.title("Bing Auto Search")
     # app.resizable(False,False)
     app.attributes("-topmost",True)
@@ -425,8 +446,12 @@ else:
     closeb = customtkinter.CTkButton(downfr,text="Close",font=("Cascadia code",15),fg_color="GREEN",command=close_edge_windows)
     closeb.grid(row=0,column=4,padx=5,pady=5,sticky="e")
 
+    shutdown_check_var = customtkinter.StringVar(value="on")
+    shutdowncheckbox = customtkinter.CTkCheckBox(downfr, text="Shutdown",variable=shutdown_check_var, onvalue="on", offvalue="off")
+    shutdowncheckbox.grid(row=0,column=5,padx=5,pady=5,sticky="e")
+
     start = customtkinter.CTkButton(downfr,text="Start",font=("Cascadia code",15),command=start_button)
-    start.grid(row=0,column=5,padx=5,pady=5,sticky="e")
+    start.grid(row=0,column=6,padx=5,pady=5,sticky="e")
 
 
     #Frame 1:
