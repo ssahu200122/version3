@@ -1,7 +1,7 @@
 
 
 import math
-from random import random
+import random
 import customtkinter
 import threading
 import time
