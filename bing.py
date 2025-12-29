@@ -1,18 +1,3 @@
-required_modules = [
-    "customtkinter",
-    "threading",
-    "time",
-    "pyautogui",
-    "time",
-    # Add your other required libraries here
-]
-
-for module in required_modules:
-    try:
-        __import__(module)
-    except ImportError:
-        print(f"Module '{module}' not found. Installing...")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", module])
 
 
 import math
