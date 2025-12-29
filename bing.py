@@ -16,6 +16,7 @@ for module in required_modules:
 
 
 import math
+from random import random
 import customtkinter
 import threading
 import time
@@ -468,10 +469,10 @@ else:
     fr2.columnconfigure(0,weight=1)
     fr2.rowconfigure(0,weight=1)
 
-    numOfProfiles = Slider1(fr2,"Number of profiles: ",2,15,1,9,command=numOfProfiles_event)
+    numOfProfiles = Slider1(fr2,"Number of profiles: ",2,15,1,7,command=numOfProfiles_event)
     numOfProfiles.grid(row=0,column=0,sticky="swe",padx=20,pady=(5,2))
 
-    pc_slider = Slider1(fr2,"PC: ",0,102,3,9)
+    pc_slider = Slider1(fr2,"PC: ",0,102,3,random.choice(range(3,30,3)))
     pc_slider.grid(row=1,column=0,sticky="swe",padx=20,pady=3)
 
     mobile_slider = Slider1(fr2,"Mobile: ",0,75,3,0)
